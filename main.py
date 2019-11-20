@@ -1,14 +1,16 @@
 import networkx as nx
 
 
-COUCOU LES ENFANTS
-
-
-
 
 class Quoridor:
 
     def __init__(self, joueurs, murs=None):
+        self.joueurs = joueurs
+        if type(self.joueurs)
+        self.murs = murs
+        
+        
+        
         """
         Initialiser une partie de Quoridor avec les joueurs et les murs spécifiés, 
         en s'assurant de faire une copie profonde de tout ce qui a besoin d'être copié.

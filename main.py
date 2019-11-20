@@ -26,7 +26,18 @@ class Quoridor:
         :raises QuoridorError: si le total des murs placés et plaçables n'est pas égal à 20.
         :raises QuoridorError: si la position d'un mur est invalide.
         """
-
+        self.joueurs = joueurs
+        self.murs = murs
+            if type(self.joueurs) is str:
+                joueur1 =
+            if type(self.joueurs) is dict:
+                joueur1 = self.joueurs[0]["Nom"]
+                joueur2 = self.joueurs[1]["Nom"]
+                (5, 1) = self.joueurs[0]["pos"]
+                (5, 9) = self.joueurs[1]["pos"]
+                10 = self.joueurs[0]["murs"]
+                10 = self.joueurs[1]["murs"]
+    
     def __str__(self):
         """
         Produire la représentation en art ascii correspondant à l'état actuel de la partie. 

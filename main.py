@@ -1,5 +1,5 @@
 class Quoridor:
-#ceci est un test de commit sur ma branche
+
 
     def __init__(self, joueurs, murs=None):
         """

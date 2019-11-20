@@ -24,13 +24,15 @@ class Quoridor:
         :raises QuoridorError: si la position d'un joueur est invalide.
         :raises QuoridorError: si murs n'est pas un dictionnaire lorsque présent.
         :raises QuoridorError: si le total des murs placés et plaçables n'est pas égal à 20.
-        :raises QuoridorError: si la position d'un mur est invalide.
+        :raises QuoridorError: si la position d'çà
+        
+        un mur est invalide.
         """
-        self.joueurs = joueurs
-        self.murs = murs
-            if type(self.joueurs) is str:
-                joueur1 =
-            if type(self.joueurs) is dict:
+            self.joueurs = joueur
+            self.murs = murs
+            if type(self.joueurs) is str: #initier un dictionnaire vierge car nouvelle partie
+                
+            if type(self.joueurs) is dict: #partie déjà en cours donc lui dire d'aller piger dans la position voulue
                 joueur1 = self.joueurs[0]["Nom"]
                 joueur2 = self.joueurs[1]["Nom"]
                 (5, 1) = self.joueurs[0]["pos"]

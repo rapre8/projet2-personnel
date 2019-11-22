@@ -106,4 +106,11 @@ class Quoridor:
         :raises QuoridorError: un mur occupe déjà cette position.
         :raises QuoridorError: la position est invalide pour cette orientation.
         :raises QuoridorError: le joueur a déjà placé tous ses murs.
+<<<<<<< Updated upstream:main.py
         """
+=======
+        """
+
+class QuoridorError(Exception):
+    
+>>>>>>> Stashed changes:quoridor.py

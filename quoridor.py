@@ -5,6 +5,46 @@ import networkx as nx
 class Quoridor:
 
     def __init__(self, joueurs, murs=None):
+        self.joueurs = joueurs
+        self.murs = murs
+
+        if type(self.joueurs) == str:
+            if murs == None:
+                état = {'joueurs': 
+                    [{'nom': self.joueurs[0], 'murs': 10, 'pos': (5, 1)},
+                     {'nom': self.joueurs[1], 'murs': 10, 'pos': (5, 9)}],
+                     'murs': {'horizontaux': [],'verticaux': []}}
+            else:
+                état = {'joueurs': 
+                    [{'nom': self.joueurs[0], 'murs': 10, 'pos': (5, 1)},
+                     {'nom': self.joueurs[1], 'murs': 10, 'pos': (5, 9)}],
+                     'murs': {'horizontaux': [murs['horizontaux']],
+                     'verticaux': [murs['verticaux']]}}
+                
+        if type(self.joueurs) == dict:
+            if murs == None:
+                état = {'joueurs': [
+                    {'nom': self.joueurs['joueurs'][0]['nom'],
+                     'murs': self.joueurs['joueurs'][0]['murs'],
+                     'pos': self.joueurs['joueurs'][0]['pos']},
+                    {'nom': self.joueurs['joueurs'][1]['nom'],
+                     'murs': self.joueurs['joueurs'][1]['murs'],
+                     'pos': self.joueurs['joueurs'][0]['pos']}],
+                     'murs': {'horizontaux': [],'verticaux': []}}
+            else:
+                état = {'joueurs': [
+                    {'nom': self.joueurs['joueurs'][0]['nom'],
+                     'murs': self.joueurs['joueurs'][0]['murs'],
+                     'pos': self.joueurs['joueurs'][0]['pos']},
+                    {'nom': self.joueurs['joueurs'][1]['nom'],
+                     'murs': self.joueurs['joueurs'][1]['murs'],
+                     'pos': self.joueurs['joueurs'][0]['pos']}],
+                     'murs': {'horizontaux': [murs['horizontaux']],
+                     'verticaux': [murs['verticaux']]}}
+
+            
+         
+        
         """
         Initialiser une partie de Quoridor avec les joueurs et les murs spécifiés, 
         en s'assurant de faire une copie profonde de tout ce qui a besoin d'être copié.
@@ -29,6 +69,7 @@ class Quoridor:
         :raises QuoridorError: si le total des murs placés et plaçables n'est pas égal à 20.
         :raises QuoridorError: si la position d'un mur est invalide.
         """
+        
 
     def __str__(self):
         """
@@ -107,3 +148,5 @@ class Quoridor:
         :raises QuoridorError: la position est invalide pour cette orientation.
         :raises QuoridorError: le joueur a déjà placé tous ses murs.
         """
+
+class 

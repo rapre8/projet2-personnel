@@ -149,4 +149,4 @@ class Quoridor:
         :raises QuoridorError: le joueur a déjà placé tous ses murs.
         """
 
-class 
+class QuoridorError(Exception):

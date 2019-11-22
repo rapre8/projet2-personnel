@@ -5,25 +5,26 @@ import networkx as nx
 class Quoridor:
 
     def __init__(self, joueurs, murs=None):
-        self.joueurs = joueurs
+        self.joueur1 = joueurs[0]
+        self.joueur2 = joueurs[1]
         self.murs = murs
-
-        if type(self.joueurs) == str:
-            if murs == None:
-                état = {'joueurs': 
-                    [{'nom': self.joueurs[0], 'murs': 10, 'pos': (5, 1)},
-                     {'nom': self.joueurs[1], 'murs': 10, 'pos': (5, 9)}],
-                     'murs': {'horizontaux': [],'verticaux': []}}
-            else:
-                état = {'joueurs': 
-                    [{'nom': self.joueurs[0], 'murs': 10, 'pos': (5, 1)},
-                     {'nom': self.joueurs[1], 'murs': 10, 'pos': (5, 9)}],
-                     'murs': {'horizontaux': [murs['horizontaux']],
-                     'verticaux': [murs['verticaux']]}}
+        if str(self.joueur1) == self.joueur1:
+            self.gamestate = {'joueurs':
+                            [{'nom': self.joueur1, 'murs': 10, 'pos': [5, 1]},
+                            {'nom': self.joueur2, 'murs': 10, 'pos': [5, 9]}],
+                            'murs': {'horizontaux': [], 'verticaux': []}}
+        else:
+                self.gamestate = {'joueurs':
+                                [self.joueur1, self.joueur2],
+                                'murs': {'horizontaux': [], 'verticaux': []}}
+        if type(self.murs) == dict:
+                self.gamestate['murs'] = self.murs
+        
                 
-        if type(self.joueurs) == dict:
+        '''if type(self.joueurs[0]) == dict:
+            pass
             if murs == None:
-                état = {'joueurs': [
+                gamestate = {'joueurs': [
                     {'nom': self.joueurs['joueurs'][0]['nom'],
                      'murs': self.joueurs['joueurs'][0]['murs'],
                      'pos': self.joueurs['joueurs'][0]['pos']},
@@ -32,7 +33,7 @@ class Quoridor:
                      'pos': self.joueurs['joueurs'][0]['pos']}],
                      'murs': {'horizontaux': [],'verticaux': []}}
             else:
-                état = {'joueurs': [
+                gamestate = {'joueurs': [
                     {'nom': self.joueurs['joueurs'][0]['nom'],
                      'murs': self.joueurs['joueurs'][0]['murs'],
                      'pos': self.joueurs['joueurs'][0]['pos']},
@@ -41,9 +42,9 @@ class Quoridor:
                      'pos': self.joueurs['joueurs'][0]['pos']}],
                      'murs': {'horizontaux': [murs['horizontaux']],
                      'verticaux': [murs['verticaux']]}}
+        self.gamestate = gamestate'''
 
-            
-         
+    
         
         """
         Initialiser une partie de Quoridor avec les joueurs et les murs spécifiés, 
@@ -78,6 +79,34 @@ class Quoridor:
 
         :returns: la chaîne de caractères de la représentation.
         """
+
+
+        haut = f'Légende: 1={self.gamestate["joueurs"][0]["nom"]}, 2={self.gamestate["joueurs"][1]["nom"]}\n'
+        haut += '   -----------------------------------\n'
+        bas = '--|-----------------------------------\n'
+        bas += '  | 1   2   3   4   5   6   7   8   9'
+        liste_vide = []
+        for i in range(18,1,-1):
+            style_damier_1 = list(f"{i//2} | .   .   .   .   .   .   .   .   . |")
+            style_damier_2 = list("  |                                   |")
+            if i%2 == 0:
+                liste_vide.append(style_damier_1)
+            else:
+                liste_vide.append(style_damier_2)   
+        for i in range(2):
+            liste_vide[18-2*self.gamestate["joueurs"][i]["pos"][1]][4*self.gamestate["joueurs"][i]["pos"][0]] = f'{i+1}'
+        for i in range(len(self.gamestate["murs"]["horizontaux"])):
+            for j in range(7):
+                liste_vide[19-2*self.gamestate["murs"]["horizontaux"][i][1]][4*self.gamestate["murs"]["horizontaux"][i][0]+j-1] = '-'
+        for i in range(len(self.gamestate["murs"]["verticaux"])):
+            for j in range(3):
+                liste_vide[18-2*self.gamestate["murs"]["verticaux"][i][1]-j][4*self.gamestate["murs"]["verticaux"][i][0]-2] = '|'
+        damier = []
+        for ligne in liste_vide:
+            damier += ligne + ['\n']
+        a = ''.join(damier)
+        
+        return haut + a + bas
 
     def déplacer_jeton(self, joueur, position):
         """
@@ -149,4 +178,8 @@ class Quoridor:
         :raises QuoridorError: le joueur a déjà placé tous ses murs.
         """
 
-class QuoridorError(Exception):
+a = Quoridor([{'nom': 'raphael', 'murs': 10, 'pos': [5, 1]},
+              {'nom': 'jean-guy', 'murs': 10, 'pos': [5, 9]}],
+             {'horizontaux': [], 'verticaux': []})
+
+print(a)

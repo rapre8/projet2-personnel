@@ -18,8 +18,7 @@ class Quoridor:
                 état = {'joueurs': 
                     [{'nom': self.joueurs[0], 'murs': 10, 'pos': (5, 1)},
                      {'nom': self.joueurs[1], 'murs': 10, 'pos': (5, 9)}],
-                     'murs': {'horizontaux': [murs['horizontaux']],
-                     'verticaux': [murs['verticaux']]}}
+                     'murs': self.murs
                 
         if type(self.joueurs) == dict:
             if murs == None:
@@ -39,10 +38,7 @@ class Quoridor:
                     {'nom': self.joueurs['joueurs'][1]['nom'],
                      'murs': self.joueurs['joueurs'][1]['murs'],
                      'pos': self.joueurs['joueurs'][0]['pos']}],
-                     'murs': {'horizontaux': [murs['horizontaux']],
-                     'verticaux': [murs['verticaux']]}}
-
-            
+                     'murs': self.murs         
          
         
         """

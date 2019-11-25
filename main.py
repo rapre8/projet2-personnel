@@ -10,8 +10,7 @@ class Quoridor:
             'pos': (5, 1)},
             {'nom': self.joueurs[1],
             'murs': 10,
-            'pos': (5, 9)},
-            'murs': {'horizontaux': [],'verticaux': []}]
+            'pos': (5, 9)}]
             # si dictionnaire, on affecte les dictionnaires aux joueurs
         if type(self.joueurs) is dict:
             joueur1 = self.joueurs[0]

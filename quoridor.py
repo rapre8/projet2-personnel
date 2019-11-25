@@ -180,6 +180,7 @@ class Quoridor:
 
 a = Quoridor([{'nom': 'raphael', 'murs': 10, 'pos': [5, 1]},
               {'nom': 'jean-guy', 'murs': 10, 'pos': [5, 9]}],
-             {'horizontaux': [], 'verticaux': []})
+             {'horizontaux': [(5,5)], 'verticaux': []})
+
 
 print(a)

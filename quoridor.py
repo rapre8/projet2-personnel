@@ -20,48 +20,8 @@ class Quoridor:
         if type(self.murs) == dict:
                 self.gamestate['murs'] = self.murs
         
-                
-        '''if type(self.joueurs[0]) == dict:
-            pass
-            if murs == None:
-                gamestate = {'joueurs': [
-                    {'nom': self.joueurs['joueurs'][0]['nom'],
-                     'murs': self.joueurs['joueurs'][0]['murs'],
-                     'pos': self.joueurs['joueurs'][0]['pos']},
-                    {'nom': self.joueurs['joueurs'][1]['nom'],
-                     'murs': self.joueurs['joueurs'][1]['murs'],
-                     'pos': self.joueurs['joueurs'][0]['pos']}],
-                     'murs': {'horizontaux': [],'verticaux': []}}
-            else:
-                gamestate = {'joueurs': [
-                    {'nom': self.joueurs['joueurs'][0]['nom'],
-                     'murs': self.joueurs['joueurs'][0]['murs'],
-                     'pos': self.joueurs['joueurs'][0]['pos']},
-                    {'nom': self.joueurs['joueurs'][1]['nom'],
-                     'murs': self.joueurs['joueurs'][1]['murs'],
-                     'pos': self.joueurs['joueurs'][0]['pos']}],
-                     'murs': {'horizontaux': [murs['horizontaux']],
-                     'verticaux': [murs['verticaux']]}}
-        self.gamestate = gamestate'''
 
-    
-        
         """
-        Initialiser une partie de Quoridor avec les joueurs et les murs spécifiés, 
-        en s'assurant de faire une copie profonde de tout ce qui a besoin d'être copié.
-
-        :param joueurs: un itérable de deux joueurs dont le premier est toujours celui qui 
-        débute la partie. Un joueur est soit une chaîne de caractères soit un dictionnaire. 
-        Dans le cas d'une chaîne, il s'agit du nom du joueur. Selon le rang du joueur dans 
-        l'itérable, sa position est soit (5,1) soit (5,9), et chaque joueur peut initialement
-        placer 10 murs. Dans le cas où l'argument est un dictionnaire, celui-ci doit contenir 
-        une clé 'nom' identifiant le joueur, une clé 'murs' spécifiant le nombre de murs qu'il 
-        peut encore placer, et une clé 'pos' qui spécifie sa position (x, y) actuelle.
-        
-        :param murs: un dictionnaire contenant une clé 'horizontaux' associée à la liste des
-        positions (x, y) des murs horizontaux, et une clé 'verticaux' associée à la liste des
-        positions (x, y) des murs verticaux. Par défaut, il n'y a aucun mur placé sur le jeu.
-
         :raises QuoridorError: si joueurs n'est pas itérable.
         :raises QuoridorError: si l'itérable de joueurs en contient plus de deux.
         :raises QuoridorError: si le nombre de murs qu'un joueur peut placer est >10, ou négatif.
@@ -74,8 +34,6 @@ class Quoridor:
 
     def __str__(self):
         
-
-
         haut = f'Légende: 1={self.gamestate["joueurs"][0]["nom"]}, 2={self.gamestate["joueurs"][1]["nom"]}\n'
         haut += '   -----------------------------------\n'
         bas = '--|-----------------------------------\n'
@@ -104,9 +62,11 @@ class Quoridor:
         return haut + a + bas
 
     def déplacer_jeton(self, joueur, position):
-        """
-        Pour le joueur spécifié, déplacer son jeton à la position spécifiée.
 
+        self.nouvelle_position = list(position)
+        self.gamestate['joueurs'][joueur - 1]['pos'] = self.nouvelle_position
+
+        """
         :param joueur: un entier spécifiant le numéro du joueur (1 ou 2).
         :param position: le tuple (x, y) de la position du jeton (1<=x<=9 et 1<=y<=9).
         :raises QuoridorError: le numéro du joueur est autre que 1 ou 2.
@@ -115,34 +75,11 @@ class Quoridor:
         """
 
     def état_partie(self):
-        """
-        Produire l'état actuel de la partie.
-
-        :returns: une copie de l'état actuel du jeu sous la forme d'un dictionnaire:
-        {
-            'joueurs': [
-                {'nom': nom1, 'murs': n1, 'pos': (x1, y1)},
-                {'nom': nom2, 'murs': n2, 'pos': (x2, y2)},
-            ],
-            'murs': {
-                'horizontaux': [...],
-                'verticaux': [...],
-            }
-        }
         
-        où la clé 'nom' d'un joueur est associée à son nom, la clé 'murs' est associée 
-        au nombre de murs qu'il peut encore placer sur ce damier, et la clé 'pos' est 
-        associée à sa position sur le damier. Une position est représentée par un tuple 
-        de deux coordonnées x et y, où 1<=x<=9 et 1<=y<=9.
-
-        Les murs actuellement placés sur le damier sont énumérés dans deux listes de
-        positions (x, y). Les murs ont toujours une longueur de 2 cases et leur position
-        est relative à leur coin inférieur gauche. Par convention, un mur horizontal se
-        situe entre les lignes y-1 et y, et bloque les colonnes x et x+1. De même, un
-        mur vertical se situe entre les colonnes x-1 et x, et bloque les lignes x et x+1.
-        """
+        return self.gamestate
 
     def jouer_coup(self, joueur):
+
         """
         Pour le joueur spécifié, jouer automatiquement son meilleur coup pour l'état actuel 
         de la partie. Ce coup est soit le déplacement de son jeton, soit le placement d'un 
@@ -154,6 +91,14 @@ class Quoridor:
         """
 
     def partie_terminée(self):
+        
+        if self.gamestate['joueurs'][0]['pos'] == [5, 9]:
+            return self.gamestate['joueurs'][0]["nom"]
+        if self.gamestate['joueurs'][1]['pos'] == [5, 1]:
+            return self.gamestate['joueurs'][1]["nom"]
+        else:
+            return False
+        
         """
         Déterminer si la partie est terminée.
 
@@ -172,10 +117,12 @@ class Quoridor:
         :raises QuoridorError: la position est invalide pour cette orientation.
         :raises QuoridorError: le joueur a déjà placé tous ses murs.
         """
+a = Quoridor([{'nom': 'raphael', 'murs': 3, 'pos': [5, 3]},
+              {'nom': 'jean-guy', 'murs': 6, 'pos': [5, 5]}], {'horizontaux': [(5, 7)], 'verticaux': [(6,3)]}
+             )
 
-a = Quoridor([{'nom': 'raphael', 'murs': 10, 'pos': [5, 1]},
-              {'nom': 'jean-guy', 'murs': 10, 'pos': [5, 9]}],
-             {'horizontaux': [(5,5),(2,5)], 'verticaux': [(7,7)]})
-
-
+print(a.état_partie())
+a.déplacer_jeton(1, (5,9))
 print(a)
+if a.partie_terminée() != None:
+    print(a.partie_terminée())

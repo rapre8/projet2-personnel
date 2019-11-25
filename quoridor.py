@@ -106,6 +106,12 @@ class Quoridor:
         """
 
     def placer_mur(self, joueur: int, position: tuple, orientation: str):
+        
+        self.gamestate['joueurs'][joueur-1]['murs'] = self.gamestate['joueurs'][joueur-1]['murs']-1
+        if orientation == 'horizontal':
+            self.gamestate['murs']['horizontaux'].append(position)
+        if orientation == 'vertical':
+            self.gamestate['murs']['verticaux'].append(position)
         """
         Pour le joueur spécifié, placer un mur à la position spécifiée.
 
@@ -117,12 +123,14 @@ class Quoridor:
         :raises QuoridorError: la position est invalide pour cette orientation.
         :raises QuoridorError: le joueur a déjà placé tous ses murs.
         """
-a = Quoridor([{'nom': 'raphael', 'murs': 3, 'pos': [5, 3]},
-              {'nom': 'jean-guy', 'murs': 6, 'pos': [5, 5]}], {'horizontaux': [(5, 7)], 'verticaux': [(6,3)]}
+a = Quoridor([{'nom': 'raphael', 'murs': 3, 'pos': [5, 1]},
+              {'nom': 'jean-guy', 'murs': 6, 'pos': [5, 9]}], {'horizontaux': [(2,2)], 'verticaux': []}
              )
 
 print(a.état_partie())
-a.déplacer_jeton(1, (5,9))
+a.placer_mur(1, (5,5), 'horizontal')
+print(a.état_partie())
+
 print(a)
-if a.partie_terminée() != None:
+if a.partie_terminée() != False:
     print(a.partie_terminée())

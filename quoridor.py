@@ -73,12 +73,7 @@ class Quoridor:
         
 
     def __str__(self):
-        """
-        Produire la représentation en art ascii correspondant à l'état actuel de la partie. 
-        Cette représentation est la même que celle du TP précédent.
-
-        :returns: la chaîne de caractères de la représentation.
-        """
+        
 
 
         haut = f'Légende: 1={self.gamestate["joueurs"][0]["nom"]}, 2={self.gamestate["joueurs"][1]["nom"]}\n'
@@ -180,7 +175,7 @@ class Quoridor:
 
 a = Quoridor([{'nom': 'raphael', 'murs': 10, 'pos': [5, 1]},
               {'nom': 'jean-guy', 'murs': 10, 'pos': [5, 9]}],
-             {'horizontaux': [(5,5)], 'verticaux': []})
+             {'horizontaux': [(5,5),(2,5)], 'verticaux': [(7,7)]})
 
 
 print(a)

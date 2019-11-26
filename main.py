@@ -14,11 +14,11 @@ class Quoridor:
 
     #erreur si position joueur est sur mur horizontal existant.
     for i in range(2):
-    for k in range(len(murs.get('horizontaux'))):
-        if joueurs[i].get('pos')[1] == murs.get('horizontaux')[k][1]:
-            for x in range(3):
-                if joueurs[i].get('pos')[0] == murs.get('horizontaux')[k][0] + x:
-                    raise QuoridorError
+        for k in range(len(murs.get('horizontaux'))):
+            if joueurs[i].get('pos')[1] == murs.get('horizontaux')[k][1]:
+                for x in range(3):
+                    if joueurs[i].get('pos')[0] == murs.get('horizontaux')[k][0] + x:
+                        raise QuoridorError
                 
     #traitement erreur pour déplacement jeton
     #erreur si déplacement en x et y out of bound

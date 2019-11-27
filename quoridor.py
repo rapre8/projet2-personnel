@@ -1,18 +1,5 @@
 import networkx as nx
 
- 
-def non_itérable(joueurs): 
-    if iter(joueurs) != True:
-        raise QuoridorError("La valeur joueurs n'est pas itérable")
-            
-
-def nombre_itérable(joueurs):
-    if len(joueurs) != 2:
-        raise QuoridorError('Le nombre de joueurs est invalide')
-
-
-def nombre_murs(joueurs):
-    pass
 
 class QuoridorError(Exception):
     pass
@@ -104,7 +91,11 @@ class Quoridor:
         if type(self.murs) == dict:
                 self.gamestate['murs'] = self.murs
         
-
+        if iter(joueurs) != True:
+            raise QuoridorError("La valeur joueurs n'est pas itérable")
+            
+        if len(joueurs) != 2:
+            raise QuoridorError('Le nombre de joueurs est invalide')
         """
         :raises QuoridorError: si joueurs n'est pas itérable.
         :raises QuoridorError: si l'itérable de joueurs en contient plus de deux.
@@ -188,6 +179,12 @@ class Quoridor:
 
         self.déplacer_jeton(joueur, position_a_aller[1])
 
+        if self.nouvelle_position != 1 or self.nouvelle_position != 2:
+            raise QuoridorError('le numéro du joueur doit être 1 ou 2')
+
+        if self.partie_terminée() != False:
+            raise QuoridorError('La partie est déjà terminée')
+
         """
         Pour le joueur spécifié, jouer automatiquement son meilleur coup pour l'état actuel 
         de la partie. Ce coup est soit le déplacement de son jeton, soit le placement d'un 
@@ -220,6 +217,14 @@ class Quoridor:
             self.gamestate['murs']['horizontaux'].append(position)
         if orientation == 'vertical':
             self.gamestate['murs']['verticaux'].append(position)
+
+        if self.nouvelle_position != 1 or self.nouvelle_position != 2:
+            raise QuoridorError('le numéro du joueur doit être 1 ou 2')
+
+        if self.gamestate[self.joueur1]['murs'] == 0 or self.gamestate[self.joueur2]['murs'] == 0:
+            raise QuoridorError('le joueur a déjà placé tout ses murs.')
+
+        if 
         """
         Pour le joueur spécifié, placer un mur à la position spécifiée.
 
@@ -227,8 +232,8 @@ class Quoridor:
         :param position: le tuple (x, y) de la position du mur.
         :param orientation: l'orientation du mur ('horizontal' ou 'vertical').
         :raises QuoridorError: le numéro du joueur est autre que 1 ou 2.
-        :raises QuoridorError: un mur occupe déjà cette position.
-        :raises QuoridorError: la position est invalide pour cette orientation.
+        ##:raises QuoridorError: un mur occupe déjà cette position.
+        ##:raises QuoridorError: la position est invalide pour cette orientation.
         :raises QuoridorError: le joueur a déjà placé tous ses murs.
         """
 a = Quoridor([{'nom': 'raphael', 'murs': 3, 'pos': [5, 1]},

@@ -223,8 +223,6 @@ class Quoridor:
 
         if self.gamestate[self.joueur1]['murs'] == 0 or self.gamestate[self.joueur2]['murs'] == 0:
             raise QuoridorError('le joueur a déjà placé tout ses murs.')
-
-        if 
         """
         Pour le joueur spécifié, placer un mur à la position spécifiée.
 
@@ -239,15 +237,4 @@ class Quoridor:
 a = Quoridor([{'nom': 'raphael', 'murs': 3, 'pos': [5, 1]},
               {'nom': 'jean-guy', 'murs': 6, 'pos': [5, 9]}], {'horizontaux': [], 'verticaux': []}
              )
-
-
-
-
-
-print(a.état_partie())
-a.jouer_coup(2)
-print(a.état_partie())
-
-print(a)
-if a.partie_terminée() != False:
-    print(a.partie_terminée())
+a.placer_mur(3, (5,5),'vertical')

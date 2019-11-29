@@ -90,12 +90,7 @@ class Quoridor:
                                 'murs': {'horizontaux': [], 'verticaux': []}}
         if type(self.murs) == dict:
                 self.gamestate['murs'] = self.murs
-        
-        if iter(joueurs) != True:
-            raise QuoridorError("La valeur joueurs n'est pas itérable")
-            
-        if len(joueurs) != 2:
-            raise QuoridorError('Le nombre de joueurs est invalide')
+               
         """
         :raises QuoridorError: si joueurs n'est pas itérable.
         :raises QuoridorError: si l'itérable de joueurs en contient plus de deux.
@@ -138,21 +133,25 @@ class Quoridor:
 
     def déplacer_jeton(self, joueur, position):
 
+        if joueur != 1:
+            if joueur != 2:
+                raise QuoridorError('le numéro du joueur doit être 1 ou 2')
+
+        if position[0] > 9 or position[0] < 1 or position[1] > 9 or position[1] < 1:
+                    raise QuoridorError('la position est invalide (en dehors du damier)')
+
         graphe = construire_graphe(
         [joueur['pos'] for joueur in self.gamestate['joueurs']], 
         self.gamestate['murs']['horizontaux'],
         self.gamestate['murs']['verticaux'])
-        self.nouvelle_position = list(position)
+        self.nouvelle_position = list(position) 
+
+        if position not in list(graphe.successors((5,6))):
+                    raise QuoridorError("la position est invalide pour l'état actuel du jeu.")
+       
         self.gamestate['joueurs'][joueur - 1]['pos'] = self.nouvelle_position
 
-        if self.nouvelle_position != 1 or self.nouvelle_position != 2:
-            raise QuoridorError('le numéro du joueur doit être 1 ou 2')
-
-        if position[0] > 9 or position[0] < 1 or position[1] > 9 or position[1] < 1:
-            raise QuoridorError('la position est invalide (en dehors du damier)')
-        
-        if position not in list(graphe.successors((5,6))):
-            raise QuoridorError("la position est invalide pour l'état actuel du jeu.") 
+         
 
         """
         :param joueur: un entier spécifiant le numéro du joueur (1 ou 2).
@@ -166,7 +165,14 @@ class Quoridor:
         
         return self.gamestate
 
-    def jouer_coup(self, joueur):  
+    def jouer_coup(self, joueur):
+
+        if self.partie_terminée() != False:
+            raise QuoridorError('La partie est déjà terminée')
+
+        if joueur != 1:
+            if  joueur != 2:
+                raise QuoridorError('le numéro du joueur doit être 1 ou 2')
 
         graphe = construire_graphe(
         [joueur['pos'] for joueur in self.gamestate['joueurs']], 
@@ -179,11 +185,9 @@ class Quoridor:
 
         self.déplacer_jeton(joueur, position_a_aller[1])
 
-        if self.nouvelle_position != 1 or self.nouvelle_position != 2:
-            raise QuoridorError('le numéro du joueur doit être 1 ou 2')
+        
 
-        if self.partie_terminée() != False:
-            raise QuoridorError('La partie est déjà terminée')
+        
 
         """
         Pour le joueur spécifié, jouer automatiquement son meilleur coup pour l'état actuel 
@@ -212,17 +216,23 @@ class Quoridor:
 
     def placer_mur(self, joueur: int, position: tuple, orientation: str):
         
+        if joueur != 1:
+            if joueur != 2:
+                raise QuoridorError('le numéro du joueur doit être 1 ou 2')
+
+        
+        if self.gamestate['joueurs'][joueur-1]['murs'] == 0:
+            raise QuoridorError('le joueur a déjà placé tout ses murs.')
+
         self.gamestate['joueurs'][joueur-1]['murs'] = self.gamestate['joueurs'][joueur-1]['murs']-1
         if orientation == 'horizontal':
             self.gamestate['murs']['horizontaux'].append(position)
         if orientation == 'vertical':
             self.gamestate['murs']['verticaux'].append(position)
 
-        if self.nouvelle_position != 1 or self.nouvelle_position != 2:
-            raise QuoridorError('le numéro du joueur doit être 1 ou 2')
+        
 
-        if self.gamestate[self.joueur1]['murs'] == 0 or self.gamestate[self.joueur2]['murs'] == 0:
-            raise QuoridorError('le joueur a déjà placé tout ses murs.')
+        
         """
         Pour le joueur spécifié, placer un mur à la position spécifiée.
 
@@ -234,7 +244,9 @@ class Quoridor:
         ##:raises QuoridorError: la position est invalide pour cette orientation.
         :raises QuoridorError: le joueur a déjà placé tous ses murs.
         """
-a = Quoridor([{'nom': 'raphael', 'murs': 3, 'pos': [5, 1]},
-              {'nom': 'jean-guy', 'murs': 6, 'pos': [5, 9]}], {'horizontaux': [], 'verticaux': []}
-             )
-a.placer_mur(3, (5,5),'vertical')
+
+a = Quoridor([{'nom': 'Dude', 'murs': 0, 'pos': [2, 2]},{'nom': 'Dudesse', 'murs': 9, 'pos': [5, 6]}],
+                             {'horizontaux': [], 'verticaux': [(5,5)]})
+
+print(a)
+a.placer_mur(2, (7,7), 'vertical')

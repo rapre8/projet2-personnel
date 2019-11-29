@@ -152,11 +152,51 @@ class Quoridor:
         self.gamestate['murs']['horizontaux'],
         self.gamestate['murs']['verticaux'])
 
-        position_a_aller = nx.shortest_path(
+        
+        position_a_aller_j1 = nx.shortest_path(
             graphe,
-            tuple(self.gamestate['joueurs'][joueur - 1]['pos']), f'B{joueur}')
+            tuple(self.gamestate['joueurs'][0]['pos']), 'B1')
+        
+        position_a_aller_j2 = nx.shortest_path(
+            graphe,
+            tuple(self.gamestate['joueurs'][1]['pos']), 'B2')
 
-        self.déplacer_jeton(joueur, position_a_aller[1])
+        if joueur == 1:    
+            if len(position_a_aller_j1) <= len(position_a_aller_j2):
+                self.déplacer_jeton(joueur, position_a_aller_j1[1])
+            
+            else:
+                for i in range(1, 10):
+                    for j in range(1, 10):
+                        self.placer_mur(1, (i, j), 'horizontal')
+                        self.gamestate['joueurs'][0]['murs'] -= 1
+
+
+                        graphe = construire_graphe(
+                        [joueur['pos'] for joueur in self.gamestate['joueurs']], 
+                        self.gamestate['murs']['horizontaux'],
+                        self.gamestate['murs']['verticaux'])
+
+                        position_a_aller_j1 = nx.shortest_path(
+                        graphe,
+                        tuple(self.gamestate['joueurs'][0]['pos']), 'B1')
+                    
+                        position_a_aller_j2 = nx.shortest_path(
+                        graphe,
+                        tuple(self.gamestate['joueurs'][1]['pos']), 'B2')
+
+
+
+
+        
+        if joueur == 2:
+            if len(position_a_aller_j1) >= len(position_a_aller_j2):
+                self.déplacer_jeton(joueur, position_a_aller_j2[1])
+
+
+        
+
+        
 
         """
         Pour le joueur spécifié, jouer automatiquement son meilleur coup pour l'état actuel 
@@ -201,18 +241,14 @@ class Quoridor:
         :raises QuoridorError: la position est invalide pour cette orientation.
         :raises QuoridorError: le joueur a déjà placé tous ses murs.
         """
-a = Quoridor([{'nom': 'raphael', 'murs': 3, 'pos': [5, 1]},
-              {'nom': 'jean-guy', 'murs': 6, 'pos': [5, 9]}], {'horizontaux': [], 'verticaux': []}
+a = Quoridor([{'nom': 'raphael', 'murs':10, 'pos': [5, 1]},
+              {'nom': 'jean-guy', 'murs': 10, 'pos': [5, 9]}], {'horizontaux': [], 'verticaux': [(5,5)]}
              )
 
-
-
-
-
-print(a.état_partie())
-a.jouer_coup(2)
-print(a.état_partie())
-
+a = Quoridor(['raph', 'marc'])
+while True:
+    
 print(a)
 if a.partie_terminée() != False:
     print(a.partie_terminée())
+    

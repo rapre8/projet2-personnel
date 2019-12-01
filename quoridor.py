@@ -1,5 +1,6 @@
 import networkx as nx
-
+from itertools import product
+import random
 
 # FONCTION FOURNIE
 def construire_graphe(joueurs, murs_horizontaux, murs_verticaux):
@@ -68,6 +69,9 @@ def construire_graphe(joueurs, murs_horizontaux, murs_verticaux):
 
     return graphe  
 # FIN DE LA FONCTION FOURNIE
+
+class QuoridorError(Exception):
+    pass
 
 class Quoridor:
 
@@ -166,24 +170,16 @@ class Quoridor:
                 self.déplacer_jeton(joueur, position_a_aller_j1[1])
             
             else:
-                for i in range(1, 10):
-                    for j in range(1, 10):
-                        self.placer_mur(1, (i, j), 'horizontal')
-                        self.gamestate['joueurs'][0]['murs'] -= 1
+                try:
+                    x = random.randint(1, 9)
+                    y = random.randint(1, 9)
+                    orientation = random.choice(['horizontal', 'vertical'])
+                    self.placer_mur(1, (x, y), orientation)
+                    self.gamestate['joueurs'][0]['murs'] -= 1
+                except QuoridorError:
+                    self.jouer_coup(1)
 
 
-                        graphe = construire_graphe(
-                        [joueur['pos'] for joueur in self.gamestate['joueurs']], 
-                        self.gamestate['murs']['horizontaux'],
-                        self.gamestate['murs']['verticaux'])
-
-                        position_a_aller_j1 = nx.shortest_path(
-                        graphe,
-                        tuple(self.gamestate['joueurs'][0]['pos']), 'B1')
-                    
-                        position_a_aller_j2 = nx.shortest_path(
-                        graphe,
-                        tuple(self.gamestate['joueurs'][1]['pos']), 'B2')
 
 
 
@@ -225,11 +221,32 @@ class Quoridor:
 
     def placer_mur(self, joueur: int, position: tuple, orientation: str):
         
+        if joueur != 1:
+            if joueur != 2:
+                raise QuoridorError('le numéro du joueur doit être 1 ou 2')
+  
+        if self.gamestate['joueurs'][joueur-1]['murs'] == 0:
+            raise QuoridorError('le joueur a déjà placé tous ses murs')
+
+        if position in self.gamestate['murs']['horizontaux'] or position in self.gamestate['murs']['verticaux'] :
+            raise QuoridorError('un mur occupe déjà cette position')
+
         self.gamestate['joueurs'][joueur-1]['murs'] = self.gamestate['joueurs'][joueur-1]['murs']-1
         if orientation == 'horizontal':
             self.gamestate['murs']['horizontaux'].append(position)
         if orientation == 'vertical':
             self.gamestate['murs']['verticaux'].append(position)
+            
+        for i in self.gamestate['murs']['verticaux']:
+            if i not in list(product(range(1,10), repeat=2)):
+                self.gamestate['murs']['verticaux'].pop()
+                raise QuoridorError("Position mur vertical invalide")
+        
+        for i in self.gamestate['murs']['horizontaux']:
+            if i not in list(product(range(1,10), repeat=2)):
+                self.gamestate['murs']['horizontaux'].pop()
+                raise QuoridorError("Position mur horizontal invalide")
+
         """
         Pour le joueur spécifié, placer un mur à la position spécifiée.
 
@@ -246,9 +263,25 @@ a = Quoridor([{'nom': 'raphael', 'murs':10, 'pos': [5, 1]},
              )
 
 a = Quoridor(['raph', 'marc'])
+
+a.placer_mur(1, (9,9), 'horizontal')
+
+'''
 while True:
+    print("""C'est le coup de Raphael """)
+    a.jouer_coup(1)
+    print(a)
+    if a.partie_terminée() != False:
+        print ('LE GAGANT EST: ')
+        print(a.partie_terminée())
+        break
+    print("""C'est le coup de marc """)
+    a.jouer_coup(2)
+    print(a)
+    if a.partie_terminée() != False:
+        print ('LE GAGANT EST: ')
+        print(a.partie_terminée())
+        break
+    '''
     
-print(a)
-if a.partie_terminée() != False:
-    print(a.partie_terminée())
-    
+        
